@@ -37,7 +37,7 @@ dependencies:
   hive: ^2.0.6
   hive_flutter: ^1.1.0
   dio: ^5.1.1
-
+  geolocator: ^10.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -80,11 +80,14 @@ flutter:
       fonts:
         - asset: asset/fonts/NaNHoloGigawide-Ultra.ttf
 
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+    - family: Belanosima
+      fonts:
+        - asset: asset/fonts/Belanosima-Regular.ttf
+          weight: 400
+        - asset: asset/fonts/Belanosima-SemiBold.ttf
+          weight: 600
+        - asset: asset/fonts/Belanosima-Bold.ttf
+          weight: 700
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -8,12 +8,16 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        fontFamily: 'Belanosima',
+        textTheme: const TextTheme(
+          bodySmall: TextStyle(fontWeight: FontWeight.w400, fontSize: 30),
+          bodyLarge: TextStyle(fontWeight: FontWeight.w600, fontSize: 50),
+          bodyMedium: TextStyle(fontWeight: FontWeight.w700, fontSize: 80),
+        ),
       ),
       home: const SplashScreen(),
     );
