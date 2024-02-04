@@ -62,7 +62,7 @@ final WeatherList = [
     id: 803,
     weather: 'Broken Cloudy',
     imageUrl: 'asset/images/brokenCloudy.png',
-    backgroundColor: CLOUDY,
+    backgroundColor: BROKENCLOUDY,
     fontColor: WHITE,
   ),
   WeatherListModel(

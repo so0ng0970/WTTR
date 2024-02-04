@@ -30,17 +30,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 67, 136, 240),
       body: Stack(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage('asset/images/splash.jpg'),
-              ),
-            ),
-          ),
+          Center(child: Image.asset('asset/images/splash.jpg')),
           Positioned(
             bottom: 0,
             right: 10,
@@ -55,7 +48,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     foreground: Paint()
                       ..style = PaintingStyle.stroke
                       ..strokeWidth = 3
-                      ..color = Colors.black, // <-- Border color
+                      ..color = const Color.fromARGB(
+                          255, 78, 78, 78), // <-- Border color
                   ),
                 ),
                 const Text(

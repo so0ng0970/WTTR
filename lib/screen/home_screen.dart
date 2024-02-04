@@ -1,111 +1,73 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
-class HomeScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:wearther_app/model/weather_model.dart';
+
+import '../component/weather_card.dart';
+import '../const/color.dart';
+import '../const/weather_list.dart';
+import '../model/weather_list_model.dart';
+import '../repository/weather_repository.dart';
+import 'loading_screen.dart';
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
-  Widget buildWeatherColumn({required String tem, required IconData icon}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(
-          icon,
-          size: 30,
-        ),
-        const Text(
-          'humidity',
-          style: TextStyle(
-            fontWeight: FontWeight.w400,
-            fontSize: 25,
-          ),
-        ),
-        Text(
-          '$temº',
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 30,
-          ),
-        )
-      ],
-    );
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  Timer? timer;
+  Future<WeatherModel> loadWeatherData() async {
+    final data = await Network().getJsonData();
+    print('454');
+    return data;
+  }
+
+  @override
+  void initState() {
+    timer = Timer.periodic(
+        const Duration(minutes: 1), (Timer t) => loadWeatherData());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 4, 76, 80),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 40,
-            ),
-            Stack(children: [
-              Image.asset('asset/images/brokenCloudy.png'),
-              const Positioned(
-                right: 0,
-                top: 10,
-                child: RotatedBox(
-                  quarterTurns: 1,
-                  child: Text(
-                    "misty",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 50,
-                        color: Colors.black),
-                  ),
-                ),
-              )
-            ]),
-            const SizedBox(
-              height: 20,
-            ),
-            const Divider(
-              thickness: 1,
-              height: 1,
-              color: Color.fromARGB(255, 255, 255, 255),
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'seoul',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 40,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '22º',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      SizedBox(
-                        child: Row(
-                          children: [
-                            buildWeatherColumn(
-                                icon: Icons.cloud_outlined, tem: '20'),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            buildWeatherColumn(
-                                icon: Icons.water_drop_outlined, tem: '23'),
-                          ],
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+    return FutureBuilder<WeatherModel>(
+      future: loadWeatherData(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const Center(
+            child: Text('에러입니다'),
+          );
+        }
+        if (!snapshot.hasData) {
+          return const LoadingScreen();
+        }
+
+        WeatherModel data = snapshot.data!;
+        WeatherListModel matchedWeather = WeatherList.firstWhere(
+          (weather) => weather.id == data.weatherId,
+          orElse: () => WeatherListModel(
+            id: 2,
+            weather: 'Showers',
+            imageUrl: 'asset/images/Showers.png',
+            backgroundColor: SHOWERS,
+            fontColor: WHITE,
+          ),
+        );
+        return WeatherCard(
+          weather: matchedWeather,
+          data: data,
+        );
+      },
     );
   }
 }

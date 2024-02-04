@@ -11,13 +11,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Belanosima',
-        textTheme: const TextTheme(
-          bodySmall: TextStyle(fontWeight: FontWeight.w400, fontSize: 30),
-          bodyLarge: TextStyle(fontWeight: FontWeight.w600, fontSize: 50),
-          bodyMedium: TextStyle(fontWeight: FontWeight.w700, fontSize: 80),
-        ),
+        textTheme: const TextTheme(),
       ),
       home: const SplashScreen(),
     );
